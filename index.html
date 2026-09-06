@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>⚡ KZRIZUSMO · Info Scanner</title>
+    <meta name="description" content="KZRIZUSMO - Aplikasi web resmi.">
+    <meta name="theme-color" content="#ff2b2b">
+    <link href="zusmo-assets/icon-192.png" rel="icon" type="image/png">
+    <link href="zusmo-assets/icon-192.png" rel="apple-touch-icon">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@500;600;700&family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Fredoka+One&family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter','Outfit',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+        html,body{-webkit-user-select:none;user-select:none}
+        input,textarea{-webkit-user-select:text;user-select:text}
+        ::selection{background:#ff2b2b;color:#fff}
+        body{background:#000 url('zusmo-assets/jk23mr.jpg') center/cover fixed no-repeat;color:#fff;min-height:100vh;overflow-x:hidden;font-family:'Outfit',system-ui,-apple-system,sans-serif;letter-spacing:.2px;line-height:1.4;display:flex;flex-direction:column;align-items:center;padding:0 0 30px}
+        body:before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,43,43,.16),transparent 55%),linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.82));pointer-events:none;z-index:0}
+
+        /* ===== PRELOADER (gaya #loadingScreen ZUSMO) ===== */
+        #loadingScreen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:99999;overflow:hidden}
+        .loaderCard{position:relative;z-index:2;text-align:center;padding:28px 34px;border-radius:25px;background:rgba(255,255,255,.06);backdrop-filter:blur(14px);border:1px solid rgba(255,43,43,.3);box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 30px rgba(255,43,43,.12);animation:popIn .6s ease}
+        @keyframes popIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+        .loaderLogo{width:78px;height:78px;border-radius:50%;object-fit:cover;border:3px solid #ff2b2b;box-shadow:0 0 22px rgba(255,43,43,.55);margin-bottom:16px}
+        .spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,.15);border-top:4px solid #ff2b2b;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .bar{width:180px;height:6px;background:rgba(255,255,255,.12);border-radius:50px;margin:4px auto 0;overflow:hidden}
+        .barFill{height:100%;width:0%;background:linear-gradient(90deg,#ff2b2b,#ff7a7a,#ff2b2b);animation:loadBar 1.8s ease forwards}
+        @keyframes loadBar{to{width:100%}}
+        .loader-label{margin-top:12px;font-family:'Audiowide',sans-serif;font-size:9px;letter-spacing:2.5px;color:rgba(255,255,255,.45);text-transform:uppercase}
+
+        /* ===== APP CONTAINER ===== */
+        .app-container{position:relative;z-index:1;width:100%;max-width:430px;padding:16px 16px 0;animation:fadeSlide .55s ease forwards}
+        @keyframes fadeSlide{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ===== HERO (identik gaya .shop-hero ZUSMO) ===== */
+        .rr-hero{position:relative;overflow:hidden;border-radius:28px;padding:22px 20px;margin:10px 0 18px;background:linear-gradient(135deg,rgba(30,0,0,.95),rgba(10,10,10,.98));border:1px solid rgba(255,43,43,.4);box-shadow:0 8px 28px rgba(0,0,0,.45),0 0 26px rgba(255,43,43,.12),inset 0 1px 0 rgba(255,255,255,.05)}
+        .rr-hero-glow{position:absolute;top:-45%;right:-18%;width:220px;height:220px;background:radial-gradient(circle,rgba(255,43,43,.38),transparent 70%);pointer-events:none}
+        .rr-hero-glow2{position:absolute;bottom:-50%;left:-15%;width:180px;height:180px;background:radial-gradient(circle,rgba(255,43,43,.18),transparent 70%);pointer-events:none}
+        .rr-hero-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px}
+        .rr-hero-title{display:flex;align-items:center;gap:10px;font-size:1rem}
+        .rr-hero-title i{color:#ff2b2b;font-size:1.05rem;text-shadow:0 0 12px rgba(255,43,43,.7)}
+        .rr-hero-title span{font-family:'Audiowide',sans-serif;font-size:1.05rem;letter-spacing:1px;background:linear-gradient(90deg,#fff,#ffb3b3);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 18px rgba(255,43,43,.55)}
+        .status-badge{position:relative;display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.4);border:1px solid rgba(255,43,43,.5);border-radius:999px;padding:6px 12px;color:#fff;font-weight:800;font-size:.62rem;font-family:'Audiowide',sans-serif;letter-spacing:.6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 14px rgba(255,43,43,.25);white-space:nowrap}
+        .rr-hero-desc{position:relative;margin-top:13px;font-size:.72rem;line-height:1.65;color:rgba(255,255,255,.55);max-width:96%}
+
+        /* ===== SECTION LABEL (identik .hm-section-lbl ZUSMO) ===== */
+        .sec-title,.hm-section-lbl{font-family:'Audiowide',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:2.2px;color:rgba(255,255,255,.5);text-transform:uppercase;margin:22px 2px 12px;display:flex;align-items:center;gap:8px}
+        .sec-title::after,.hm-section-lbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,43,43,.4),transparent)}
+        .sec-title:first-of-type{margin-top:2px}
+
+        /* ===== SOCIAL ROW ===== */
+        .social-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+        .social-card{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,43,43,.3);text-decoration:none;color:#fff;font-family:'Audiowide',sans-serif;font-size:9px;letter-spacing:.5px;transition:.2s}
+        .social-card:active{transform:scale(.96);border-color:#ff2b2b;box-shadow:0 0 14px rgba(255,43,43,.2)}
+        .social-card i{font-size:18px;color:#ff2b2b;text-shadow:0 0 10px rgba(255,43,43,.6)}
+
+        /* ===== SEARCH BOX ===== */
+        .search-box{display:flex;flex-direction:column;gap:10px;margin:18px 0 6px}
+        .search-box input{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);padding:13px;border-radius:16px;color:#fff;font-size:14px;text-align:center;font-weight:700;font-family:'Outfit',sans-serif;outline:none}
+        .search-box input::placeholder{color:rgba(255,255,255,.35)}
+        .search-box input:focus{border-color:#ff2b2b;box-shadow:0 0 0 3px rgba(255,43,43,.12)}
+        .search-box button{display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:linear-gradient(90deg,#ff2b2b,#e00000);border:none;border-radius:16px;color:#fff;font-weight:800;font-family:'Audiowide',sans-serif;font-size:12px;letter-spacing:1.5px;cursor:pointer;box-shadow:0 8px 20px rgba(255,0,0,.3);transition:.15s}
+        .search-box button:active{transform:scale(.97)}
+
+        /* ===== LOADING STATE ===== */
+        #loading{display:none;text-align:center;padding:40px 0}
+        #loading .loading-text{margin-top:12px;font-family:'Audiowide',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.5)}
+        #profileView{display:none}
+
+        /* ===== STATUS TAG (online/offline) ===== */
+        .online-tag{padding:12px;border-radius:16px;text-align:center;font-weight:800;font-size:12px;margin:18px 0;letter-spacing:2px;font-family:'Audiowide',sans-serif;border:1.5px solid}
+        .tag-on{background:rgba(0,255,136,.08);color:#00ff88;border-color:#00ff88;box-shadow:0 0 16px rgba(0,255,136,.15)}
+        .tag-off{background:rgba(255,43,43,.08);color:#ff4747;border-color:#ff2b2b;box-shadow:0 0 16px rgba(255,43,43,.15)}
+
+        /* ===== IDENTITY ROW (Banner & Soul) ===== */
+        .id-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+        .id-item{background:rgba(0,0,0,.6);border:1px solid rgba(255,43,43,.3);border-radius:18px;padding:10px;text-align:center}
+        .id-item img{width:100%;height:74px;object-fit:contain}
+        .id-item span{display:block;font-size:8.5px;color:#ff6b6b;font-weight:800;margin-top:8px;letter-spacing:1.6px;font-family:'Audiowide',sans-serif;text-shadow:0 0 8px rgba(255,43,43,.4)}
+
+        /* ===== PLAYER HEADER ===== */
+        .player-header{background:rgba(255,255,255,.06);border-radius:22px;border:1px solid rgba(255,43,43,.25);padding:15px;display:flex;align-items:center;gap:14px;margin-bottom:14px;backdrop-filter:blur(14px)}
+        .header-thumb{width:68px;height:68px;border-radius:16px;border:2px solid #ff2b2b;overflow:hidden;background:#000;flex-shrink:0;box-shadow:0 0 16px rgba(255,43,43,.3)}
+        .header-thumb img{width:100%;height:100%;object-fit:contain}
+        .header-info{flex:1;overflow:hidden}
+        .header-info h2{font-family:'Outfit',sans-serif;font-size:15px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .header-info p{font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-top:4px;letter-spacing:.3px}
+
+        /* ===== PREMIUM BOX (identik gaya .prog-order-card ZUSMO) ===== */
+        .premium-box{position:relative;border-radius:22px;padding:16px;margin-bottom:14px;background:linear-gradient(165deg,#181818,#0c0c0c);border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+        .box-title{font-family:'Audiowide',sans-serif;font-size:9.5px;color:rgba(255,255,255,.55);margin-bottom:12px;letter-spacing:2px;font-weight:700;text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px}
+        .box-title .emoji-anim{filter:drop-shadow(0 0 6px rgba(255,43,43,.7))}
+
+        /* row label/value — identik pola .vps-row ZUSMO */
+        .info-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:8px 0;font-size:12.5px}
+        .info-row+.info-row{border-top:1px solid rgba(255,255,255,.07)}
+        .info-row span:first-child{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.6px;color:rgba(255,255,255,.5);white-space:nowrap;flex-shrink:0}
+        .info-row span:last-child{color:#fff;font-weight:800;text-align:right;flex:1;min-width:0;word-break:break-word}
+
+        /* ===== ITEM GRID (weapons/skills/clothes) ===== */
+        .item-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:2px}
+        .item-card{background:rgba(0,0,0,.6);border:1.5px solid rgba(255,43,43,.3);border-radius:14px;padding:6px;text-align:center;box-shadow:0 6px 15px rgba(0,0,0,.5);transition:.2s;aspect-ratio:1/1.2;display:flex;flex-direction:column;justify-content:center;align-items:center}
+        .item-card:active{transform:scale(1.05);border-color:#ff2b2b;box-shadow:0 0 14px rgba(255,43,43,.3)}
+        .item-card img{width:85%;height:70%;object-fit:contain}
+        .item-card .item-id{font-size:7.5px;color:#ff6b6b;font-family:'Audiowide',sans-serif;font-weight:700;margin-top:4px}
+
+        /* ===== EMOJI ANIMATION ===== */
+        .emoji-anim{display:inline-block;font-family:-apple-system,BlinkMacSystemFont,"Apple Color Emoji","Segoe UI Emoji",sans-serif;animation:bounceEmoji 2.5s infinite ease-in-out;filter:drop-shadow(0 0 6px rgba(255,43,43,.6));margin:0 4px}
+        @keyframes bounceEmoji{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.15)}}
+
+        /* ===== FOOTER (identik .footer ZUSMO) ===== */
+        .footer{text-align:center;margin:30px 0 12px;position:relative;padding-top:16px;font-family:'Space Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:rgba(255,255,255,.32)}
+        .footer::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:46px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#ff2b2b,transparent)}
+        .footer a{color:#ff3c3c;text-decoration:none;font-weight:700;letter-spacing:2.5px;text-shadow:0 0 10px rgba(255,43,43,.35)}
+        .footer-brand{color:#ff3c3c;font-weight:800;letter-spacing:2.5px;text-shadow:0 0 10px rgba(255,43,43,.35)}
+    </style>
+</head>
+<body>
+
+    <div id="loadingScreen">
+        <div class="loaderCard">
+            <img class="loaderLogo" src="zusmo-assets/20260904_073401.png" alt="KZRIZUSMO Logo">
+            <div class="spinner"></div>
+            <div class="bar"><div class="barFill"></div></div>
+            <div class="loader-label">Memuat Sistem...</div>
+        </div>
+    </div>
+
+    <div class="app-container">
+
+        <div class="rr-hero">
+            <div class="rr-hero-glow"></div>
+            <div class="rr-hero-glow2"></div>
+            <div class="rr-hero-top">
+                <div class="rr-hero-title"><i class="fa-solid fa-satellite-dish"></i><span>KZRIZUSMO</span></div>
+                <div class="status-badge"><i class="fa-solid fa-check"></i> OFFICIAL</div>
+            </div>
+            <p class="rr-hero-desc">Info Scanner · Scan data akun kamu secara instan langsung dari database VIP.</p>
+        </div>
+
+        <div class="social-row">
+            <a href="https://whatsapp.com/channel/GANTI_DENGAN_LINK_SALURAN_WA" target="_blank" class="social-card"><i class="fab fa-whatsapp"></i><span><span class="emoji-anim">💫</span> WA CHANNEL</span></a>
+            <a href="https://www.tiktok.com/@kzrizusmo" target="_blank" class="social-card"><i class="fab fa-tiktok"></i><span>TIKTOK <span class="emoji-anim">🐉</span></span></a>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="uidInput" placeholder="MASUKKAN UID PLAYER..." />
+            <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> SCAN VIP DATABASE</button>
+        </div>
+
+        <div id="loading">
+            <div class="spinner"></div>
+            <p class="loading-text">DECRYPTING...</p>
+        </div>
+
+        <div id="profileView">
+            <div id="statusTag" class="online-tag">OFFLINE</div>
+
+            <!-- IDENTITY (BANNER & SOUL) -->
+            <div class="id-row">
+                <div class="id-item"><img id="pBannerCard" src=""><span>BANNER ID</span></div>
+                <div class="id-item"><img id="pAvatarCard" src=""><span>SOUL ID</span></div>
+            </div>
+
+            <!-- PLAYER HEADER -->
+            <div class="player-header">
+                <div class="header-thumb"><img id="pSoulThumb" src=""></div>
+                <div class="header-info"><h2 id="pName">NAME</h2><p id="pId">UID: 00000000</p></div>
+            </div>
+
+            <!-- 👤 ACCOUNT INFORMATION -->
+            <div class="premium-box">
+                <div class="box-title"><span class="emoji-anim">👤</span> ACCOUNT INFORMATION</div>
+                <div class="info-row"><span>NAME:</span> <span id="pNameFull">---</span></div>
+                <div class="info-row"><span>UID:</span> <span id="pUidFull">---</span></div>
+                <div class="info-row"><span>REGION:</span> <span id="pRegion">BD</span></div>
+                <div class="info-row"><span>LEVEL:</span> <span id="pLevel">0</span></div>
+                <div class="info-row"><span>EXP:</span> <span id="pExp">0</span></div>
+                <div class="info-row"><span>LIKES:</span> <span id="pLikes">0</span></div>
+                <div class="info-row"><span>CREDIT SCORE:</span> <span id="pCredit">100</span></div>
+                <div class="info-row"><span>TITLE:</span> <span id="pTitle">---</span></div>
+            </div>
+
+            <!-- 📊 ACCOUNT STATISTICS -->
+            <div class="premium-box">
+                <div class="box-title"><span class="emoji-anim">📊</span> ACCOUNT STATISTICS</div>
+                <div class="info-row"><span>GAME VERSION:</span> <span id="pVersion">OB54</span></div>
+                <div class="info-row"><span>BR POINTS:</span> <span id="pBrPoints">0</span></div>
+                <div class="info-row"><span>CREATED:</span> <span id="pCreated">---</span></div>
+                <div class="info-row"><span>LAST LOGIN:</span> <span id="pLastLogin">---</span></div>
+                <div class="info-row"><span>BAN STATUS:</span> <span id="pBanStatus">🟢 UNBANNED</span></div>
+            </div>
+
+            <!-- 🌐 SOCIAL INFO -->
+            <div class="premium-box">
+                <div class="box-title"><span class="emoji-anim">🌐</span> SOCIAL INFO</div>
+                <div class="info-row"><span>BADGE COUNT:</span> <span id="pBadges">0</span></div>
+                <div class="info-row"><span>ELITE PASS:</span> <span id="pElite">No</span></div>
+                <div class="info-row"><span>CELEBRITY:</span> <span id="pCeleb">No</span></div>
+                <div class="info-row"><span>HONOR SCORE:</span> <span id="pHonor">100</span></div>
+            </div>
+
+            <!-- 🐾 PET INFORMATION -->
+            <div class="premium-box" id="petSection">
+                <div class="box-title"><span class="emoji-anim">🐾</span> PET INFORMATION</div>
+                <div style="text-align:center; margin-bottom:12px;"><img id="pPetImg" src="" style="width:96px; height:96px; border-radius:16px; border:2px solid #ff2b2b; box-shadow:0 0 16px rgba(255,43,43,.3);"></div>
+                <div class="info-row"><span>NAME:</span> <span id="pPetName">---</span></div>
+                <div class="info-row"><span>LEVEL:</span> <span id="pPetLevel">0</span></div>
+                <div class="info-row"><span>EXP:</span> <span id="pPetExp">0</span></div>
+                <div class="info-row"><span>ID:</span> <span id="pPetId">---</span></div>
+                <div class="info-row"><span>SKILL:</span> <span id="pPetSkill">---</span></div>
+                <div class="info-row"><span>SKIN:</span> <span id="pPetSkin">---</span></div>
+            </div>
+
+            <!-- 🏰 GUILD INFORMATION -->
+            <div class="premium-box" id="guildSection">
+                <div class="box-title"><span class="emoji-anim">🏰</span> GUILD INFORMATION</div>
+                <div class="info-row"><span>NAME:</span> <span id="pGuildName">---</span></div>
+                <div class="info-row"><span>GUILD ID:</span> <span id="pGuildId">---</span></div>
+                <div class="info-row"><span>LEVEL:</span> <span id="pGuildLevel">0</span></div>
+                <div class="info-row"><span>MEMBERS:</span> <span id="pGuildMembers">0/0</span></div>
+            </div>
+
+            <!-- 👨‍✈️ CAPTAIN INFORMATION -->
+            <div class="premium-box" id="captainSection">
+                <div class="box-title"><span class="emoji-anim">👨‍✈️</span> CAPTAIN INFORMATION</div>
+                <div class="info-row"><span>NAME:</span> <span id="pCapName">---</span></div>
+                <div class="info-row"><span>UID:</span> <span id="pCapUid">---</span></div>
+                <div class="info-row"><span>LEVEL:</span> <span id="pCapLevel">0</span></div>
+                <div class="info-row"><span>EXP:</span> <span id="pCapExp">0</span></div>
+                <div class="info-row"><span>TITLE:</span> <span id="pCapTitle">---</span></div>
+            </div>
+
+            <!-- BIO -->
+            <div class="premium-box">
+                <div class="box-title"><span class="emoji-anim">📝</span> BIO</div>
+                <div id="pBio" style="font-size:13px; color:rgba(255,255,255,.8); text-align:center; background:rgba(0,0,0,.5); padding:12px; border-radius:14px; line-height:1.5; border:1px solid rgba(255,43,43,.2);">---</div>
+            </div>
+
+            <div id="outfitSection" style="display:none; text-align:center; margin-bottom:22px;">
+                <div class="sec-title"><span class="emoji-anim">👕</span> FULL BUNDLE OUTFIT</div>
+                <img id="pOutfit" style="width:100%; border-radius:22px; border:1px solid rgba(255,43,43,.4); background:#000; box-shadow:0 8px 28px rgba(0,0,0,.45),0 0 26px rgba(255,43,43,.12);" src="">
+            </div>
+
+            <!-- MAIN CHARACTER -->
+            <div class="sec-title"><span class="emoji-anim">👤</span> MAIN CHARACTER</div>
+            <div class="premium-box" style="text-align:center;">
+                <img id="pMainChar" src="" style="width:96px; height:96px; border-radius:16px; border:2px solid #ff2b2b; margin-bottom:8px; object-fit:contain; box-shadow:0 0 16px rgba(255,43,43,.3);">
+                <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:14px;color:#fff;" id="pMainCharName">CHARACTER</div>
+                <div class="item-id" style="color:rgba(255,255,255,.45);font-size:9px;margin-top:2px;" id="pMainCharId">ID: 0</div>
+            </div>
+
+            <div class="sec-title"><span class="emoji-anim">🔫</span> WEAPON COLLECTION</div>
+            <div class="item-grid" id="weaponsGrid"></div>
+
+            <div class="sec-title"><span class="emoji-anim">🎯</span> TACTICAL SKILLS</div>
+            <div class="item-grid" id="skillsGrid"></div>
+
+            <div class="sec-title"><span class="emoji-anim">👔</span> EQUIPPED CLOTHES</div>
+            <div class="item-grid" id="clothesGrid"></div>
+        </div>
+
+        <div class="footer">
+            © 2026 <span class="footer-brand">KZRIZUSMO</span> DEV <span class="emoji-anim">💎</span>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => setTimeout(() => {
+            var ls = document.getElementById('loadingScreen');
+            ls.style.transition = '.6s';
+            ls.style.opacity = '0';
+            setTimeout(() => ls.style.display = 'none', 600);
+        }, 1200);
+
+        const searchBtn = document.getElementById('searchBtn');
+        const searchSound = new Audio('https://www.soundjay.com/buttons/button-3.mp3');
+
+        searchBtn.onclick = async () => {
+            const uid = document.getElementById('uidInput').value.trim();
+            if (!uid) return;
+            searchSound.play();
+            document.getElementById('loading').style.display = 'block'; document.getElementById('profileView').style.display = 'none';
+            try {
+                const res = await fetch(`/api/player/${uid}`);
+                const data = await res.json();
+                
+                document.getElementById('pName').innerText = data.nickname;
+                document.getElementById('pNameFull').innerText = data.nickname;
+                document.getElementById('pId').innerText = `UID: ${data.account_id}`;
+                document.getElementById('pUidFull').innerText = data.account_id;
+                document.getElementById('pRegion').innerText = data.region;
+                document.getElementById('pLevel').innerText = data.level;
+                document.getElementById('pExp').innerText = data.exp.toLocaleString();
+                document.getElementById('pLikes').innerText = data.liked.toLocaleString();
+                document.getElementById('pCredit').innerText = `🟢 ${data.creditScore} (Excellent)`;
+                document.getElementById('pTitle').innerText = data.title;
+                document.getElementById('pVersion').innerText = data.releaseVersion;
+                document.getElementById('pBrPoints').innerText = data.rankingPoints.toLocaleString();
+                document.getElementById('pCreated').innerText = data.createAt;
+                document.getElementById('pLastLogin').innerText = data.lastLogin;
+                document.getElementById('pBio').innerText = data.bio || "NO BIO SET";
+
+                const tag = document.getElementById('statusTag');
+                tag.innerText = data.is_online ? "STATUS: ONLINE 🔵" : "STATUS: OFFLINE 🔴";
+                tag.className = data.is_online ? "online-tag tag-on" : "online-tag tag-off";
+
+                document.getElementById('pBadges').innerText = data.badge_cnt;
+                document.getElementById('pElite').innerText = data.hasElitePass ? "Yes" : "No";
+                document.getElementById('pCeleb').innerText = data.celebrity ? "Yes" : "No";
+                document.getElementById('pHonor').innerText = data.honorScore;
+
+                const soulUrl = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${data.headPic}.png`;
+                document.getElementById('pSoulThumb').src = soulUrl;
+                document.getElementById('pAvatarCard').src = soulUrl;
+                document.getElementById('pBannerCard').src = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${data.bannerId}.png`;
+                
+                const outfitUrl = `https://outfit-api-omega.vercel.app/outfit-image?uid=${uid}&key=SHIHAB07`;
+                document.getElementById('pOutfit').src = outfitUrl;
+                document.getElementById('outfitSection').style.display = 'block';
+
+                document.getElementById('pMainChar').src = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${data.charId}.png`;
+                document.getElementById('pMainCharId').innerText = `ID: ${data.charId}`;
+
+                if(data.pet) {
+                    document.getElementById('petSection').style.display = 'block';
+                    document.getElementById('pPetImg').src = `https://cdn.jsdelivr.net/gh/ShahGCreator/icon@main/PNG/${data.pet.id}.png`;
+                    document.getElementById('pPetName').innerText = data.pet.name;
+                    document.getElementById('pPetLevel').innerText = data.pet.level;
+                    document.getElementById('pPetExp').innerText = data.pet.exp;
+                    document.getElementById('pPetId').innerText = data.pet.id;
+                    document.getElementById('pPetSkill').innerText = data.pet.selectedSkillId;
+                    document.getElementById('pPetSkin').innerText = data.pet.skinId;
+                } else { document.getElementById('petSection').style.display = 'none'; }
+
+                if(data.guild_name !== 'NONE') {
+                    document.getElementById('guildSection').style.display = 'block';
+                    document.getElementById('pGuildName').innerText = data.guild_name;
+                    document.getElementById('pGuildId').innerText = data.guild_id;
+                    document.getElementById('pGuildLevel').innerText = data.guild_level;
+                    document.getElementById('pGuildMembers').innerText = `${data.guild_members}/${data.guild_capacity}`;
+                } else { document.getElementById('guildSection').style.display = 'none'; }
+
+                if(data.captain) {
+                    document.getElementById('captainSection').style.display = 'block';
+                    document.getElementById('pCapName').innerText = data.captain.nickname;
+                    document.getElementById('pCapUid').innerText = data.captain.accountId;
+                    document.getElementById('pCapLevel').innerText = data.captain.level;
+                    document.getElementById('pCapExp').innerText = data.captain.exp;
+                    document.getElementById('pCapTitle').innerText = data.captain.title;
+                } else { document.getElementById('captainSection').style.display = 'none'; }
+
+                const grid = (id, items) => {
+                    document.getElementById(id).innerHTML = items.map(i => `<div class="item-card"><img src="${i.icon}" onerror="this.src='https://i.imgur.com/6VBx3io.png'"><div class="item-id">ID: ${i.id}</div></div>`).join('');
+                };
+                grid('weaponsGrid', data.weapons);
+                grid('skillsGrid', data.skills);
+                grid('clothesGrid', data.clothes);
+
+                document.getElementById('profileView').style.display = 'block';
+            } catch (e) { alert("Data load failed!"); }
+            finally { document.getElementById('loading').style.display = 'none'; }
+        };
+    </script>
+</body>
+</html>
